@@ -1,0 +1,9 @@
+# Generated builds and local IDE artifacts
+*.exe
+*.o
+*.gch
+*.zip
+itch-package/
+tempCodeRunnerFile.cpp
+*.layout
+*.dev
