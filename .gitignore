@@ -4,6 +4,7 @@
 *.gch
 *.zip
 itch-package/
+itch-package-latest/
 tempCodeRunnerFile.cpp
 *.layout
 *.dev

@@ -14,6 +14,7 @@ int k = 1, i, user = 0, dice = 0, x1 = 49, y1 = 402, x2 = 68, y2 = 402, dir1 = 0
 	ch;
 int cnt1 = 1, cnt2 = 1;
 void *obj1, *obj2, *o1, *o2, *dot, *back, *turn, *ready;
+void *sceneBackground = NULL;
 unsigned int size;
 float octave[] = {130.81, 146.83, 164.81, 174.61, 196, 220, 246.94};
 const int TOKEN_SIZE = 16;
@@ -759,18 +760,31 @@ void drawCurrentPlayer(int player)
 
 void drawGameScreen(int currentPlayer)
 {
-	cleardevice();
-	numbering();
-	setupLadder1();
-	setupLadder2();
-	snake1();
-	snake2();
-	status();
+	if (sceneBackground == NULL)
+	{
+		cleardevice();
+		numbering();
+		setupLadder1();
+		setupLadder2();
+		snake1();
+		snake2();
+		status();
 
-	setcolor(WHITE);
-	setfillstyle(SOLID_FILL, WHITE);
-	bar(500, 130, 580, 210);
-	rectangle(500, 130, 580, 210);
+		setcolor(WHITE);
+		setfillstyle(SOLID_FILL, WHITE);
+		bar(500, 130, 580, 210);
+		rectangle(500, 130, 580, 210);
+
+		// Cache the complete board and controls before any pawns are drawn.
+		unsigned int sceneSize = imagesize(0, 0, 700, 460);
+		sceneBackground = malloc(sceneSize);
+		getimage(0, 0, 700, 460, sceneBackground);
+	}
+	else
+	{
+		putimage(0, 0, sceneBackground, COPY_PUT);
+	}
+
 	if (dice > 0)
 		displayDice();
 
