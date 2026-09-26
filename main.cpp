@@ -67,19 +67,15 @@ int waitForAction()
 
 void drawPawn(int left, int top, int pawnColor)
 {
-	int body[] = {
-		left + 4, top + 8,
-		left + 12, top + 8,
-		left + 15, top + 15,
-		left + 1, top + 15};
-
+	// Clean, round tokens stay legible at every board position.
+	setcolor(BLACK);
+	setfillstyle(SOLID_FILL, BLACK);
+	fillellipse(left + 8, top + 8, 9, 9);
 	setcolor(WHITE);
 	setfillstyle(SOLID_FILL, pawnColor);
-	fillellipse(left + 8, top + 4, 4, 4);
-	fillpoly(4, body);
-	line(left + 1, top + 15, left + 15, top + 15);
+	fillellipse(left + 8, top + 8, 7, 7);
 	setfillstyle(SOLID_FILL, WHITE);
-	fillellipse(left + 8, top + 4, 1, 1);
+	fillellipse(left + 5, top + 5, 2, 2);
 }
 
 void setupLadder1()
@@ -811,13 +807,11 @@ void playFivePlayerGame()
 		int destination = playerSquares[currentPlayer] + dice;
 		if (destination <= 100)
 		{
-			while (playerSquares[currentPlayer] < destination)
-			{
-				playerSquares[currentPlayer]++;
-				drawGameScreen(currentPlayer);
-				Beep(octave[currentPlayer % 7], 80);
-				delay(220);
-			}
+			// Update once per roll so the board never flashes during movement.
+			if (destination <= 100)
+				playerSquares[currentPlayer] = destination;
+			drawGameScreen(currentPlayer);
+			Beep(octave[currentPlayer % 7], 120);
 
 			int transported = transportedSquare(playerSquares[currentPlayer]);
 			if (transported != playerSquares[currentPlayer])
