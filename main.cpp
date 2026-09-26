@@ -821,11 +821,17 @@ void playFivePlayerGame()
 		int destination = playerSquares[currentPlayer] + dice;
 		if (destination <= 100)
 		{
-			// Update once per roll so the board never flashes during movement.
+			// Animate one square at a time using the cached board background.
 			if (destination <= 100)
-				playerSquares[currentPlayer] = destination;
-			drawGameScreen(currentPlayer);
-			Beep(octave[currentPlayer % 7], 120);
+			{
+				while (playerSquares[currentPlayer] < destination)
+				{
+					playerSquares[currentPlayer]++;
+					drawGameScreen(currentPlayer);
+					Beep(octave[currentPlayer % 7], 80);
+					delay(180);
+				}
+			}
 
 			int transported = transportedSquare(playerSquares[currentPlayer]);
 			if (transported != playerSquares[currentPlayer])
